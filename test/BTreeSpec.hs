@@ -40,3 +40,7 @@ spec =
     it "fmap Branch" $ do
       let n2 = Branch 2 (Leaf 1) (Leaf 3)
       fmap (*2) n2 `shouldBe` Branch 4 (Leaf 2) (Leaf 6)
+    it "bind Leaf" $ do
+      (Leaf 1 >>= (\x -> Leaf (x * 2))) `shouldBe` Leaf 2
+    it "bind Branch" $ do
+      (Branch 2 (Leaf 1) (Leaf 3) >>= (\x -> Leaf (x * 2))) `shouldBe` Leaf 4

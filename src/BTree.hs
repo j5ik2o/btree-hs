@@ -9,9 +9,9 @@ instance (Show a) => Show (Node a) where
   show (Branch n l r) = "(" ++ show l ++ " " ++ show n ++ " " ++ show r ++ ")"
 
 instance (Eq a) => Eq (Node a) where
-  (==) (Leaf a) (Leaf b) = a == b
-  (==) (Branch a l r) (Branch b l' r') = a == b && l == l' && r == r'
-  (==) _ _ = False
+  (Leaf a) == (Leaf b) = a == b
+  (Branch a l r) == (Branch b l' r') = a == b && l == l' && r == r'
+  _ == _ = False
 
 instance Functor Node where
   fmap f (Leaf n) = Leaf (f n)

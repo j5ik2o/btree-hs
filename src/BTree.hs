@@ -17,6 +17,17 @@ instance Functor Node where
   fmap f (Leaf n) = Leaf (f n)
   fmap f (Branch n l r) = Branch (f n) (fmap f l) (fmap f r)
 
+instance Applicative Node where
+  pure = Leaf
+  (<*>) (Leaf f) n = fmap f n
+  (<*>) (Branch f l r) (Leaf n) = Branch (f n) (l <*> Leaf n) (r <*> Leaf n)
+  (<*>) (Branch f l r) (Branch n l' r') = Branch (f n) (l <*> l') (r <*> r')
+
+instance Monad Node where
+  return x = Leaf x
+  (Leaf n) >>= f = f n
+  (Branch n l r) >>= f = Branch (f n) (l >>= f) (r >>= f)
+
 value :: Node a -> a
 value (Leaf x) = x
 value (Branch x _ _) = x
